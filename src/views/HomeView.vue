@@ -15,7 +15,9 @@
         <div v-for="name in matchingNames" :key="name">{{ name }}</div>
         <button @click="handleClick">stop watching</button>
 
-        <PostList :posts="posts" />
+        <PostList v-if="showPosts" :posts="posts" />
+        <button @click="showPosts = !showPosts">toggle posts</button>
+        <button @click="posts.pop()">delete a post</button>
     </div>
 </template>
 
@@ -58,8 +60,9 @@ export default {
             { title: 'Welcome to the blog', body: 'lorem ipsum lorem ipsum', id: 1 },
             { title: 'Top 5 css tips', body: 'lorem ipsum lorem ipsum', id: 2 }
         ])
+        const showPosts = ref(true)
 
-        return { userOne, userTwo, updateUserOne, updateUserTwo, names, search, matchingNames, handleClick, posts }
+        return { userOne, userTwo, updateUserOne, updateUserTwo, names, search, matchingNames, handleClick, posts, showPosts }
     }
 }
 </script>

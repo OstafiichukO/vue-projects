@@ -7,14 +7,24 @@
 </template>
 
 <script>
+import { onMounted, onUnmounted, onUpdated } from '@vue/runtime-core'
 import SinglePost from './SinglePost.vue'
 
 export default {
     props: ['posts'],
     components: { SinglePost },
     setup(props) {
-        console.log(props.posts)
-    }
+        onMounted(() => {
+            console.log('Component mounted')
+        })
+        onUnmounted(() => {
+            console.log('Coponent unmounted')
+        })
+        onUpdated(() => {
+            console.log('Component updated')
+        })
+    },
+    // mounted() { console.log('Mounted using options API') }
 }
 </script>
 
