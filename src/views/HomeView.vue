@@ -14,6 +14,8 @@
         <p>Search term - {{ search }}</p>
         <div v-for="name in matchingNames" :key="name">{{ name }}</div>
         <button @click="handleClick">stop watching</button>
+
+        <PostList :posts="posts" />
     </div>
 </template>
 
@@ -21,8 +23,11 @@
 import { ref, reactive, computed } from '@vue/reactivity';
 import { watch, watchEffect } from '@vue/runtime-core';
 
+import PostList from '../components/PostList.vue'
+
 export default {
     name: 'HomeView',
+    components: { PostList },
     setup() {
         const userOne = ref({ name: 'Alex', age: 30 });
         const userTwo = reactive({ name: 'Bruno', age: 36 });
@@ -48,8 +53,13 @@ export default {
             stopWatch()
             stopEffect()
         }
+        //composition
+        const posts = ref([
+            { title: 'Welcome to the blog', body: 'lorem ipsum lorem ipsum', id: 1 },
+            { title: 'Top 5 css tips', body: 'lorem ipsum lorem ipsum', id: 2 }
+        ])
 
-        return { userOne, userTwo, updateUserOne, updateUserTwo, names, search, matchingNames, handleClick }
+        return { userOne, userTwo, updateUserOne, updateUserTwo, names, search, matchingNames, handleClick, posts }
     }
 }
 </script>
