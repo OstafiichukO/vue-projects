@@ -15,9 +15,15 @@
         <div v-for="name in matchingNames" :key="name">{{ name }}</div>
         <button @click="handleClick">stop watching</button>
 
-        <PostList v-if="showPosts" :posts="posts" />
-        <button @click="showPosts = !showPosts">toggle posts</button>
-        <button @click="posts.pop()">delete a post</button>
+        <!-- <PostList v-if="showPosts" :posts="posts" /> -->
+        <!-- <button @click="showPosts = !showPosts">toggle posts</button>
+        <button @click="posts.pop()">delete a post</button> -->
+
+        <div v-if="error">{{ error }}</div>
+        <div v-if="posts.length">
+            <PostList :posts="posts" />
+        </div>
+        <div v-else>Loading...</div>
     </div>
 </template>
 
@@ -56,13 +62,31 @@ export default {
             stopEffect()
         }
         //composition
-        const posts = ref([
-            { title: 'Welcome to the blog', body: 'lorem ipsum lorem ipsum', id: 1 },
-            { title: 'Top 5 css tips', body: 'lorem ipsum lorem ipsum', id: 2 }
-        ])
+        // const posts = ref([
+        //     { title: 'Welcome to the blog', body: 'lorem ipsum lorem ipsum', id: 1 },
+        //     { title: 'Top 5 css tips', body: 'lorem ipsum lorem ipsum', id: 2 }
+        // ])
         const showPosts = ref(true)
+        //fetcheng data
+        const posts = ref([])
+        const error = ref(null)
 
-        return { userOne, userTwo, updateUserOne, updateUserTwo, names, search, matchingNames, handleClick, posts, showPosts }
+        const load = async () => {
+            try {
+                let data = await fetch('http://localhost:3000/posts')
+                if (!data.ok) {
+                    throw Error('No data available')
+                }
+                posts.value = await data.json()
+            }
+            catch (err) {
+                error.value = err.message
+                console.log(error.value)
+            }
+        }
+        load()
+
+        return { userOne, userTwo, updateUserOne, updateUserTwo, names, search, matchingNames, handleClick, posts, showPosts, error, load }
     }
 }
 </script>
