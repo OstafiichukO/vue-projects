@@ -13,10 +13,10 @@
       "complete": false
     },
     {
-      "title": "My new project",
-      "details": "project details",
-      "complete": false,
-      "id": 3
+      "title": "My new project 3",
+      "details": "project details 3",
+      "id": 3,
+      "complete": true
     }
   ]
 }
